@@ -1,0 +1,22 @@
+version: '3'
+services:
+  server:
+    container_name: php-apache
+    build: ./php/src
+    restart: always
+    volumes:
+      - ./php/src/view:/var/www/html
+    ports:
+      - 80:80
+    links:
+      - db
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: password
+    volumes:
+        - ./db:/docker-entrypoint-initdb.d:ro
+    ports:
+        - 3308:3306
